@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, TextField } from '@mui/material';
+import '../App.css';
 
-import NumberInput from './common/NumberInput';
 import ResultDisplay from './common/ResultDisplay';
 
 // Div Class Names
@@ -10,10 +10,11 @@ const divFieldsClassName = "numberFields"
 
 // Title & Headlines
 const titleText = "Loan Calculator";
-const usedFormula = "Monthly Payment = X * ((Y / 12) / (1 - (1+Y / 12)^(-12Z)))"
+const usedFormula = "Monthly Payment = X * ((Y / 12) / (1 - (1+Y / 12)^(-12Z)))";
+const userFormulaExplanation = "X = Loan Amount | Y = Annual Interest Rate (in Decimal) | Z = Loan Terms in Years";
 
 // Field Values
-const loanAmountFieldPlaceholder = 'Loan Amount';
+const loanAmountFieldPlaceholder = 'Loan Amount (€)';
 const annualInterestRatePlaceholder = 'Annual Interest Rate (%)';
 const loanTermYearsPlaceholder = 'Loan Term (Years)';
 
@@ -48,27 +49,31 @@ function LoanCalculator(){
     return( 
         <div className={ divMainClassName }>
             
-            <Typography variant="h4">{ titleText }</Typography>
+            <Typography variant="h4" className='largeBoldHeaderPrimary'>{ titleText }</Typography>
             <Typography variant="subtitle1">{ usedFormula }</Typography>
+            <Typography variant="subtitle1">{ userFormulaExplanation }</Typography>
             <div className={ divFieldsClassName }>
-                <NumberInput
+                <TextField
                 value={loanAmount}
                 onChange={(e) => setloanAmount(e.target.value)}
-                placeholder={ loanAmountFieldPlaceholder }
+                label={ loanAmountFieldPlaceholder }
+                variant="filled"
                 />
             </div>
             <div className={ divFieldsClassName }>
-                <NumberInput
+                <TextField
                 value={annualInterestRate}
                 onChange={(e) => setannualInterestRate(e.target.value)}
-                placeholder={ annualInterestRatePlaceholder }
+                label={ annualInterestRatePlaceholder }
+                variant="filled"
                 />
             </div>
             <div className={ divFieldsClassName }>
-                <NumberInput
+                <TextField
                 value={loanTerm}
                 onChange={(e) => setloanTerm(e.target.value)}
-                placeholder={ loanTermYearsPlaceholder }
+                label={ loanTermYearsPlaceholder }
+                variant="filled"
                 />
             </div>
             <div className={ divFieldsClassName }>
