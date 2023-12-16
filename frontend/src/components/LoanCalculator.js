@@ -19,13 +19,30 @@ const loanTermYearsPlaceholder = 'Loan Term (Years)';
 
 
 function LoanCalculator(){
-    const [input1, setInput1] = useState('');
-    const [input2, setInput2] = useState('');
-    const [input3, setInput3] = useState('');
-    const [result, setResult] = useState(null);
+    const [loanAmount, setloanAmount] = useState('');
+    const [annualInterestRate, setannualInterestRate] = useState('');
+    const [loanTerm, setloanTerm] = useState('');
+    const [MonthlyPayment, setMonthlyPayment] = useState(null);
+    const [TotalRepayment, setTotalRepayment] = useState(null);
 
-    const handleCalculate = () => {
-        setResult(Number(input1) + Number(input2));
+    const handleCalculation = () => {
+        const loanAmountNumber = Number(loanAmount);
+        const loanTermNumber = Number(loanTerm);
+        const annualInterestRateDecimal = Number(annualInterestRate) / 100;
+
+        const monthlyPayment = loanAmountNumber * (annualInterestRateDecimal / 12) / (1 - Math.pow((1 + annualInterestRateDecimal / 12), (-12 * loanTermNumber)));
+
+        const totalRepaymentCalculated = Number(monthlyPayment) * 12 * loanTermNumber;
+
+        setMonthlyPayment({
+            text: 'Monthly Payment',
+            value: Number(monthlyPayment).toFixed(2)
+        });
+
+        setTotalRepayment({
+            text: 'Total Repayment',
+            value: Number(totalRepaymentCalculated).toFixed(2)
+        });
     };
 
     return( 
@@ -35,28 +52,30 @@ function LoanCalculator(){
             <Typography variant="subtitle1">{ usedFormula }</Typography>
             <div className={ divFieldsClassName }>
                 <NumberInput
-                value={input1}
-                onChange={(e) => setInput1(e.target.value)}
+                value={loanAmount}
+                onChange={(e) => setloanAmount(e.target.value)}
                 placeholder={ loanAmountFieldPlaceholder }
                 />
             </div>
             <div className={ divFieldsClassName }>
-            <NumberInput
-            value={input2}
-            onChange={(e) => setInput2(e.target.value)}
-            placeholder={ annualInterestRatePlaceholder }
-            />
+                <NumberInput
+                value={annualInterestRate}
+                onChange={(e) => setannualInterestRate(e.target.value)}
+                placeholder={ annualInterestRatePlaceholder }
+                />
             </div>
             <div className={ divFieldsClassName }>
-            <NumberInput
-            value={input2}
-            onChange={(e) => setInput3(e.target.value)}
-            placeholder={ loanTermYearsPlaceholder }
-            />
+                <NumberInput
+                value={loanTerm}
+                onChange={(e) => setloanTerm(e.target.value)}
+                placeholder={ loanTermYearsPlaceholder }
+                />
             </div>
-            <Button variant="text" onClick={handleCalculate}>Calculate Monthly Payment</Button>
-            {result !== null && <ResultDisplay result={result} />}
-            <div className={ divFieldsClassName }></div>
+            <div className={ divFieldsClassName }>
+                <Button variant="text" onClick={handleCalculation}>Calculate Monthly Payment</Button>
+                {MonthlyPayment !== null && <ResultDisplay result={MonthlyPayment} />}
+                {TotalRepayment !== null && <ResultDisplay result={TotalRepayment} />}
+            </div>
         </div>
     )
 }
