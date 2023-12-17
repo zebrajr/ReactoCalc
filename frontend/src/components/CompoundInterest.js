@@ -37,20 +37,18 @@ function calculateCompoundInterestWithContributions(PMT, r, n, t) {
 }
 
 
-function totalFutureValue(P, PMT, r, n, t) {
-    let A = calculateCompoundInterest(P, r, n, t);
-    let S = calculateCompoundInterestWithContributions(PMT, r, n, t);
-    return A + S;
-}
-
-
 
 function CompoundInterestCalculator(){
     const [initialInvestment, setInitialInvestment] = useState('');
     const [monthlyContribution, setMonthlyContribution] = useState('');
     const [annualInterestRate, setAnnualInterestRate] = useState('');
-    const [compoundsPerYear, setCompoundsPerYear] = useState(null);
-    const [investmentTerm, setInvestmentTerm] = useState(null);
+    const [compoundsPerYear, setCompoundsPerYear] = useState('');
+    const [investmentTerm, setInvestmentTerm] = useState('');
+    const [InitialInvestmentCompound, setInitialInvestmentCompound] = useState(null);
+    const [ContributionsInvestmentCompound, setContributionsInvestmentCompound] = useState(null);
+    const [TotalCompound, setTotalCompound] = useState(null);
+    const [TotalCompoundPlus2, setTotalCompoundPlus2] = useState(null);
+    const [TotalCompoundMinus2, setTotalCompoundMinus2] = useState(null);
 
     const handleCalculation = () => {
         const P = Number(initialInvestment);
@@ -59,27 +57,45 @@ function CompoundInterestCalculator(){
         const n = Number(compoundsPerYear);
         const t = Number(investmentTerm);
 
-        
-        /*
-        const loanAmountNumber = Number(loanAmount);
-        const loanTermNumber = Number(loanTerm);
-        const annualInterestRateDecimal = Number(annualInterestRate) / 100;
+        const A = calculateCompoundInterest(P, r, n, t);
+        const S = calculateCompoundInterestWithContributions(PMT, r, n, t);
+        const totalCompounded = A + S;
 
-        const monthlyPayment = loanAmountNumber * (annualInterestRateDecimal / 12) / (1 - Math.pow((1 + annualInterestRateDecimal / 12), (-12 * loanTermNumber)));
+        const APlus2 = calculateCompoundInterest(P, (r + 0.02), n, t);
+        const SPlus2 = calculateCompoundInterestWithContributions(PMT, (r + 0.02), n, t);
 
-        const totalRepaymentCalculated = Number(monthlyPayment) * 12 * loanTermNumber;
+        const totalCompoundedPlus2 = APlus2 + SPlus2;
 
-        setMonthlyPayment({
-            text: 'Monthly Payment',
-            value: Number(monthlyPayment).toFixed(2)
+        const AMinus2 = calculateCompoundInterest(P, (r - 0.02), n, t);
+        const SMinus2 = calculateCompoundInterestWithContributions(PMT, (r - 0.02), n, t);
+
+        const totalCompoundedMinus2 = AMinus2 + SMinus2;
+
+        setInitialInvestmentCompound({
+            text: 'Initial Investment Compounded',
+            value: Number(A).toFixed(2)
         });
 
-        setTotalRepayment({
-            text: 'Total Repayment',
-            value: Number(totalRepaymentCalculated).toFixed(2)
+        setContributionsInvestmentCompound({
+            text: 'Monthly Contributions Compounded',
+            value: Number(S).toFixed(2)
         });
-        */
-       return false;
+
+        setTotalCompound({
+            text: 'Total Compounded',
+            value: Number(totalCompounded).toFixed(2)
+        });
+
+        setTotalCompoundPlus2({
+            text: 'Total Compounded (+2.00% speculation)',
+            value: Number(totalCompoundedPlus2).toFixed(2)
+        });
+
+        setTotalCompoundMinus2({
+            text: 'Total Compounded (-2.00% speculation)',
+            value: Number(totalCompoundedMinus2).toFixed(2)
+        });
+       
     };
 
     return( 
@@ -133,10 +149,11 @@ function CompoundInterestCalculator(){
             </div>
             <div className={ divFieldsClassName }>
                 <Button variant="text" onClick={handleCalculation}>Calculate Compound Interest</Button>
-                {/*
-                {MonthlyPayment !== null && <ResultDisplay result={MonthlyPayment} />}
-                {TotalRepayment !== null && <ResultDisplay result={TotalRepayment} />}
-                */}
+                {ContributionsInvestmentCompound !== null && <ResultDisplay result={ ContributionsInvestmentCompound } />}
+                {InitialInvestmentCompound !== null && <ResultDisplay result={ InitialInvestmentCompound } />}
+                {TotalCompound !== null && <ResultDisplay result={ TotalCompound } />}
+                {TotalCompoundPlus2 !== null && <ResultDisplay result={ TotalCompoundPlus2 } />}
+                {TotalCompoundMinus2 !== null && <ResultDisplay result={ TotalCompoundMinus2 } />}
             </div>
         </div>
     )
