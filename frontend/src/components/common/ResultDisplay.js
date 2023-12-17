@@ -1,7 +1,7 @@
 import React from 'react';
 
 function ResultDisplay({ result }) {
-  return <h2>{result.text }: {result.value }</h2>;
+  return <h3>{result.text }: {result.value }</h3>;
 }
 
 export default ResultDisplay;
