@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+
+
+.largeBoldHeaderPrimary {
+  font-weight: bold;
+  margin-bottom: 0px;
+  color: #4a90e2;
+}
+
+
+.largeBoldHeaderSecondary {
+  font-weight: bold;
+  margin-bottom: 0px;
+  color: #e29c4a;
+}
